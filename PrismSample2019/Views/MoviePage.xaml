@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="PrismSample2019.Views.MoviePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:model="using:PrismSample2019.Core.Models"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource SmallLeftRightMargin}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <CommandBar HorizontalAlignment="Right"
+                    DefaultLabelPosition="Collapsed">
+            <AppBarElementContainer VerticalContentAlignment="Center"
+                                    Margin="4,0,0,0">
+                <AutoSuggestBox QueryIcon="Find"
+                                MinWidth="200"
+                                Text="{Binding InputMovieTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{Binding QuerySubmittedCommand}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </AutoSuggestBox>
+            </AppBarElementContainer>
+            <AppBarButton Label="Help" Icon="Help" Margin="4,0,0,0"
+                          Command="{Binding HelpCommand}"/>
+        </CommandBar>
+        
+        <Grid Grid.Row="1">
+            <controls:DataGrid x:Name="DataGrid"
+                AutoGenerateColumns="False"
+                GridLinesVisibility="Horizontal"
+                ItemsSource="{Binding Searchs}"
+                SelectedItem="{Binding SelectedMovie, Mode=TwoWay}"
+                SelectionMode="Extended">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="BeginningEdit">
+                        <core:InvokeCommandAction Command="{Binding  BeginningEditCommand}"/>
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{Binding  SelectionChangedCommand}"
+                                                  CommandParameter="{Binding ElementName=DataGrid, Path=SelectedItems}"/>
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                <controls:DataGrid.Columns>
+                    <!--TODO WTS:
+                    Remove this column definitions and define columns for your data.
+                    Consider adding header properties to Resources.resw-->
+                    <controls:DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                    <controls:DataGridTextColumn Header="Year" Binding="{Binding Year}"  />
+                    <controls:DataGridTextColumn Header="ImdbId" Binding="{Binding ImdbId}" />
+                    <controls:DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                    <!--<controls:DataGridTextColumn Header="Poster" Binding="{Binding Poster}" />-->
+                    <controls:DataGridTemplateColumn Header="Poster">
+                        <controls:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Poster}" Height="30"/>
+                            </DataTemplate>
+                        </controls:DataGridTemplateColumn.CellTemplate>
+                    </controls:DataGridTemplateColumn>
+                </controls:DataGrid.Columns>
+            </controls:DataGrid>
+        </Grid>
+    </Grid>
+</Page>

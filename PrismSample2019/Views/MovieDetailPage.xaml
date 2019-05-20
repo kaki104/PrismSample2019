@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="PrismSample2019.Views.MovieDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Source="{Binding CurrentMovieDetail.Poster}" Width="200"
+               VerticalAlignment="Top" Margin="0,0,20,0"/>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock Text="{Binding CurrentMovieDetail.Title}" FontSize="20"/>
+            <TextBlock Text="{Binding CurrentMovieDetail.Runtime}"/>
+            <TextBlock Text="{Binding CurrentMovieDetail.imdbRating}"/>
+            <TextBlock Text="{Binding CurrentMovieDetail.Genre}"/>
+            <TextBlock Text="{Binding CurrentMovieDetail.Released}"/>
+            <TextBlock />
+            <TextBlock Text="{Binding CurrentMovieDetail.Rated}"/>
+            <controls:HeaderedContentControl Header="Director" Content="{Binding CurrentMovieDetail.Director}"/>
+            <controls:HeaderedContentControl Header="Writer" Content="{Binding CurrentMovieDetail.Writer}"/>
+            <controls:HeaderedContentControl Header="Actors"  Content="{Binding CurrentMovieDetail.Actors}"/>
+            <TextBlock Text="{Binding CurrentMovieDetail.BoxOffice}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>
