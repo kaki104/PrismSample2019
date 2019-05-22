@@ -5,5 +5,6 @@
         public const string MainPage = "Main";
         public const string MoviePage = "Movie";
         public const string MovieDetailPage = "MovieDetail";
+        public const string WebViewPage = "WebView";
     }
 }

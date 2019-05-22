@@ -126,10 +126,13 @@
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\PageTokens.cs" />
+    <Compile Include="Services\IWebViewService.cs" />
+    <Compile Include="Services\WebViewService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MovieDetailViewModel.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\WebViewViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,9 @@
     </Compile>
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WebViewPage.xaml.cs">
+      <DependentUpon>WebViewPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +183,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WebViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

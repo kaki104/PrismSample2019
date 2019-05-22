@@ -8,8 +8,9 @@ using Prism.Mvvm;
 using Prism.Unity.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
-
+using PrismSample2019.Core.Helpers;
 using PrismSample2019.Core.Services;
+using PrismSample2019.Services;
 using PrismSample2019.Views;
 
 using Windows.ApplicationModel.Activation;
@@ -25,6 +26,11 @@ namespace PrismSample2019
         public App()
         {
             InitializeComponent();
+
+            //User-Agent의 헤더 텍스트 입력
+            UserAgentHelper.SetDefaultUserAgent(
+                "Mozilla/5.0 (Windows Phone 10.0; Android 6.0.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Mobile Safari/537.36 Edge/15.14900");
+
         }
 
         protected override void ConfigureContainer()
@@ -33,6 +39,7 @@ namespace PrismSample2019
             base.ConfigureContainer();
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             Container.RegisterType<ISampleDataService, SampleDataService>();
+            Container.RegisterType<IWebViewService, WebViewService>();
         }
 
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
