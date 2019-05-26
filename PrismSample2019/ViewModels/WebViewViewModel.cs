@@ -14,7 +14,8 @@ namespace PrismSample2019.ViewModels
     public class WebViewViewModel : ViewModelBase
     {
         // TODO WTS: Set the URI of the page to show by default
-        private const string DefaultUrl = "http://naver.com";
+        //private const string DefaultUrl = "http://naver.com";
+        private const string DefaultUrl = "http://localhost:11520/";
 
         public WebViewViewModel()
         {
