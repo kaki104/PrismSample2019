@@ -31,6 +31,7 @@
                 <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="Main" />
                 <winui:NavigationViewItem x:Uid="Shell_Movie" Icon="Document" helpers:NavHelper.NavigateTo="Movie" />
                 <winui:NavigationViewItem x:Uid="Shell_MovieDetail" Icon="Document" helpers:NavHelper.NavigateTo="MovieDetail" />
+                <winui:NavigationViewItem x:Uid="Shell_WebView" Icon="Document" helpers:NavHelper.NavigateTo="WebView" />
             </winui:NavigationView.MenuItems>
             <i:Interaction.Behaviors>
                 <behaviors:NavigationViewHeaderBehavior
