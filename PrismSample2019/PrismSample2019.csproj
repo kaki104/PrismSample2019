@@ -220,6 +220,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PrismSample.RT\PrismSample.RT.csproj">
+      <Project>{6f9f1d64-fd72-4c40-9d70-c4c40995605c}</Project>
+      <Name>PrismSample.RT</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PrismSample2019.Core\PrismSample2019.Core.csproj">
       <Project>{5A3CFE57-CFD8-42B9-92A5-9679B578EFE8}</Project>
       <Name>PrismSample2019.Core</Name>
