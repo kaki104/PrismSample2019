@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Unity.Windows;
+using PrismSample.RT;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +19,14 @@ namespace PrismSample2019.Services
             _webView = webViewInstance;
             _webView.NavigationCompleted += WebView_NavigationCompleted;
             _webView.NavigationFailed += WebView_NavigationFailed;
+            _webView.NavigationStarting += _webView_NavigationStarting;
+        }
+
+        private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            var component = PrismUnityApplication.Current.Container.TryResolve<InterfaceComponent>();
+            _webView.AddWebAllowedObject("interface", component);
+
         }
 
         public void Detatch()
@@ -24,7 +34,8 @@ namespace PrismSample2019.Services
             if (_webView != null)
             {
                 _webView.NavigationCompleted -= WebView_NavigationCompleted;
-                _webView.NavigationFailed += WebView_NavigationFailed;
+                _webView.NavigationFailed -= WebView_NavigationFailed;
+                _webView.NavigationStarting -= _webView_NavigationStarting;
             }
         }
 

@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<script type='text/javascript'>
+    function basics1() {
+        document.getElementById('output').innerHTML = interface.getAnswer();
+    }
+
+    function basics2(answer) {
+        interface.setAnswer(answer);
+        document.getElementById('output').innerHTML = "Done.";
+    }
+</script>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div id="buttons">
+        <button id="button1" onclick="basics1()">Basics 1</button>
+        <button id="button2" onclick="basics2('Microsoft')">Basics 2</button>
+    </div>
+    <div id="output"></div>
+</div>
