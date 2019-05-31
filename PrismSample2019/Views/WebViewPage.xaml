@@ -105,6 +105,12 @@
                 <Button Style="{StaticResource BrowserButtonStyle}" Command="{x:Bind ViewModel.BrowserForwardCommand, Mode=OneWay}" x:Uid="WebView_BrowserForwardButton">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72A;" />
                 </Button>
+                
+                <Button Content="setText()" Command="{Binding RunScriptCommand}"
+                        CommandParameter="javascript:setText('Run setText script successed');"/>
+                <Button Content="getText()" Command="{Binding RunScriptCommand}"
+                        CommandParameter="javascript:getText();" Margin="4,0,0,0"/>
+
             </StackPanel >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource BrowserButtonStyle}" Command="{x:Bind ViewModel.RefreshCommand}" x:Uid="WebView_RefreshBrowserButton">
