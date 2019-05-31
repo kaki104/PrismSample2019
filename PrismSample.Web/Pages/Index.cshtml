@@ -35,6 +35,26 @@
                 break;
         }
     }
+
+    function setText(text) {
+        document.getElementById('output').innerHTML = text;
+    }
+
+    function getText() {
+        return "Hi nice meet you!!";
+    }
+
+    function alertBox(message) {
+        window.external.notify('alert:' + message); 
+    }
+
+    function confirmBox(message) { 
+        window.external.notify('confirm:' + message); 
+    }
+
+    function confirmBoxResult(result) {
+        document.getElementById('output').innerHTML = result;
+    }
 </script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -45,7 +65,8 @@
         <button id="button3" onclick="getContent()">Get Content</button>
         <button id="button4" onclick="navigate('home')">Go Home</button>
         <button id="button5" onclick="navigate('movie')">Go Movie</button>
-
+        <button id="button6" onclick="alertBox('Everything is ok!')">Alert</button>
+        <button id="button7" onclick="confirmBox('Are you sure?')">Confirm</button>
     </div>
     <div id="output"></div>
 </div>

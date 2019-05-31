@@ -44,6 +44,9 @@
 
       <Extensions>
       </Extensions>
+      <uap:ApplicationContentUriRules>
+        <uap:Rule Type="include" Match="http://localhost:11520" WindowsRuntimeAccess="none"/>
+      </uap:ApplicationContentUriRules>
     </Application>
   </Applications>
 

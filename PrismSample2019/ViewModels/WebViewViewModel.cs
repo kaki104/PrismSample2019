@@ -2,8 +2,9 @@
 using System.Windows.Input;
 
 using Prism.Commands;
+using Prism.Events;
 using Prism.Windows.Mvvm;
-
+using PrismSample2019.Core.Events;
 using PrismSample2019.Services;
 
 using Windows.UI.Xaml;
@@ -17,8 +18,10 @@ namespace PrismSample2019.ViewModels
         //private const string DefaultUrl = "http://naver.com";
         private const string DefaultUrl = "http://localhost:11520/";
 
-        public WebViewViewModel()
+        public WebViewViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+
             IsLoading = true;
             Source = new Uri(DefaultUrl);
 
@@ -28,7 +31,20 @@ namespace PrismSample2019.ViewModels
             RetryCommand = new DelegateCommand(Retry);
             OpenInBrowserCommand = new DelegateCommand(async () => await Windows.System.Launcher.LaunchUriAsync(Source));
 
+            RunScriptCommand = new DelegateCommand<string>(OnRunScriptCommand);
             // Note that the WebViewService is set from within the view because it needs a reference to the WebView control
+        }
+
+        private void OnRunScriptCommand(string script)
+        {
+            _eventAggregator.GetEvent<RunScriptEvent>()
+                .Publish(new Core.Models.RunScriptEventArgs
+                {
+                    Scripts = new string[]
+                    {
+                        script
+                    }
+                });
         }
 
         private Uri _source;
@@ -40,6 +56,7 @@ namespace PrismSample2019.ViewModels
         }
 
         private bool _isLoading;
+        private readonly IEventAggregator _eventAggregator;
 
         public bool IsLoading
         {
@@ -175,5 +192,10 @@ namespace PrismSample2019.ViewModels
 
             _webViewService?.Refresh();
         }
+
+        /// <summary>
+        /// 스크립트 실행 커맨드
+        /// </summary>
+        public ICommand RunScriptCommand { get; set; }
     }
 }
