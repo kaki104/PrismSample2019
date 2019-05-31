@@ -3,9 +3,12 @@ using System.Linq;
 using System.Windows.Input;
 
 using Prism.Commands;
+using Prism.Events;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-
+using PrismSample2019.Core.Enums;
+using PrismSample2019.Core.Events;
+using PrismSample2019.Core.Models;
 using PrismSample2019.Helpers;
 
 using Windows.UI.Xaml.Controls;
@@ -25,6 +28,8 @@ namespace PrismSample2019.ViewModels
 
         public ICommand ItemInvokedCommand { get; }
 
+        private readonly IEventAggregator _eventAggregator;
+
         public bool IsBackEnabled
         {
             get { return _isBackEnabled; }
@@ -37,10 +42,12 @@ namespace PrismSample2019.ViewModels
             set { SetProperty(ref _selected, value); }
         }
 
-        public ShellViewModel(INavigationService navigationServiceInstance)
+        public ShellViewModel(INavigationService navigationServiceInstance, IEventAggregator eventAggregator)
         {
             _navigationService = navigationServiceInstance;
             ItemInvokedCommand = new DelegateCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked);
+
+            _eventAggregator = eventAggregator;
         }
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView)
@@ -53,6 +60,30 @@ namespace PrismSample2019.ViewModels
             };
             _frame.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
+
+            _eventAggregator.GetEvent<NavigateEvent>()
+                .Subscribe(ReceiveNavigateEvent);
+        }
+
+        private void ReceiveNavigateEvent(NavigateEventArgs obj)
+        {
+            switch (obj.NavigateEventAction)
+            {
+                case NavigateEventAction.None:
+                    break;
+                case NavigateEventAction.Navigate:
+                    _navigationService.Navigate(obj.NavigatePageName, obj.NavigateParameter);
+                    break;
+                case NavigateEventAction.GoHome:
+                    _navigationService.Navigate(PageTokens.MainPage, obj.NavigateParameter);
+                    _navigationService.RemoveAllPages();
+                    break;
+                case NavigateEventAction.GoBack:
+                    break;
+                case NavigateEventAction.GoForeword:
+                    break;
+            }
+
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)

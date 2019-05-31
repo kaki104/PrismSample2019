@@ -13,6 +13,28 @@
         interface.setAnswer(answer);
         document.getElementById('output').innerHTML = "Done.";
     }
+
+    function getContent() {
+        var result = interface.getUriContentAsync("https://kaki104.tistory.com/m/625").then(
+            function (content) {
+                document.getElementById('output').innerHTML = content;
+            },
+            function () {
+                document.getElementById('output').innerHTML = "canceled";
+            }
+        );
+    }
+
+    function navigate(location) {
+        switch (location) {
+            case 'home':
+                interface.goHome();
+                break;
+            case 'movie':
+                interface.goMovie();
+                break;
+        }
+    }
 </script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -20,6 +42,10 @@
     <div id="buttons">
         <button id="button1" onclick="basics1()">Basics 1</button>
         <button id="button2" onclick="basics2('Microsoft')">Basics 2</button>
+        <button id="button3" onclick="getContent()">Get Content</button>
+        <button id="button4" onclick="navigate('home')">Go Home</button>
+        <button id="button5" onclick="navigate('movie')">Go Movie</button>
+
     </div>
     <div id="output"></div>
 </div>
