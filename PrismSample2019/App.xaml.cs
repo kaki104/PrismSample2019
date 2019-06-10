@@ -17,6 +17,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http.Filters;
 
 namespace PrismSample2019
 {
@@ -40,6 +41,14 @@ namespace PrismSample2019
             Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
             Container.RegisterType<ISampleDataService, SampleDataService>();
             Container.RegisterType<IWebViewService, WebViewService>();
+
+            //HttpBaseProtocolFilter 인스턴스 만들고, 컨테이너에 인스턴스 등록
+            var httpFilter = Container.Resolve<HttpBaseProtocolFilter>();
+            httpFilter.AllowAutoRedirect = true;
+            httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.Default;
+            httpFilter.CacheControl.WriteBehavior = HttpCacheWriteBehavior.Default;
+            Container.RegisterInstance(typeof(HttpBaseProtocolFilter), "httpFilter", httpFilter);
+
         }
 
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

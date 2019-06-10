@@ -56,6 +56,9 @@ namespace PrismSample.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                //todo : add MapControllers
+                endpoints.MapControllers();
+
             });
         }
     }
