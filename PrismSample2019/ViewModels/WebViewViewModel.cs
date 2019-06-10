@@ -1,14 +1,18 @@
-﻿using System;
-using System.Windows.Input;
-
+﻿using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Windows.Mvvm;
 using PrismSample2019.Core.Events;
+using PrismSample2019.Core.Helpers;
 using PrismSample2019.Services;
-
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace PrismSample2019.ViewModels
 {
@@ -17,8 +21,9 @@ namespace PrismSample2019.ViewModels
         // TODO WTS: Set the URI of the page to show by default
         //private const string DefaultUrl = "http://naver.com";
         private const string DefaultUrl = "http://localhost:11520/";
+        private const string DefaultApiUrl = "http://localhost:11520/api/";
 
-        public WebViewViewModel(IEventAggregator eventAggregator)
+        public WebViewViewModel(IEventAggregator eventAggregator, IUnityContainer unityContainer)
         {
             _eventAggregator = eventAggregator;
 
@@ -32,7 +37,68 @@ namespace PrismSample2019.ViewModels
             OpenInBrowserCommand = new DelegateCommand(async () => await Windows.System.Launcher.LaunchUriAsync(Source));
 
             RunScriptCommand = new DelegateCommand<string>(OnRunScriptCommand);
-            // Note that the WebViewService is set from within the view because it needs a reference to the WebView control
+            GetValuesCommand = new DelegateCommand(OnGetValuesCommand);
+            SetValuesCommand = new DelegateCommand(OnSetValuesCommand);
+
+            _unityContainer = unityContainer;
+            _httpFilter = _unityContainer.Resolve(typeof(HttpBaseProtocolFilter), "httpFilter") as HttpBaseProtocolFilter;
+            if (_httpFilter == null) return;
+        }
+
+        private async void OnSetValuesCommand()
+        {
+            var uri = $"{DefaultApiUrl}values";
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders
+                      .Accept
+                      .Add(new Windows.Web.Http.Headers.HttpMediaTypeWithQualityHeaderValue("application/json"));//ACCEPT header
+                var list = new string[] { "http://kakisoft.com", "http://www.youtube.com/FutureOfDotNET" };
+                var content = new HttpStringContent(await Json.StringifyAsync(list), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);
+                if (response.IsSuccessStatusCode == false)
+                {
+                    return;
+                }
+            }
+
+        }
+
+        private async void OnGetValuesCommand()
+        {
+            string uri = $"{DefaultApiUrl}values";
+
+            HttpCookie blog = Cookies.FirstOrDefault(c => c.Name == "custom_blog");
+            if (blog != null)
+            {
+                blog.Value = "http://kaki104.tistory.com";
+                _httpFilter.CookieManager.SetCookie(blog);
+            }
+            else
+            {
+                var existCookie = Cookies.FirstOrDefault();
+                if (existCookie == null) return;
+                var cookie = new HttpCookie("custom_blog", existCookie.Domain, existCookie.Path)
+                {
+                    Value = "http://kakisoft.com"
+                };
+                _httpFilter.CookieManager
+                    .SetCookie(cookie);
+            }
+
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(new Uri(uri));
+                if (response.IsSuccessStatusCode == false)
+                {
+                    return;
+                }
+
+                string result = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine(result);
+            }
         }
 
         private void OnRunScriptCommand(string script)
@@ -51,8 +117,8 @@ namespace PrismSample2019.ViewModels
 
         public Uri Source
         {
-            get { return _source; }
-            set { SetProperty(ref _source, value); }
+            get => _source;
+            set => SetProperty(ref _source, value);
         }
 
         private bool _isLoading;
@@ -60,11 +126,7 @@ namespace PrismSample2019.ViewModels
 
         public bool IsLoading
         {
-            get
-            {
-                 return _isLoading;
-            }
-
+            get => _isLoading;
             set
             {
                 if (value)
@@ -81,26 +143,15 @@ namespace PrismSample2019.ViewModels
 
         public Visibility IsLoadingVisibility
         {
-            get
-            {
-                return _isLoadingVisibility;
-            }
-
-            set
-            {
-                SetProperty(ref _isLoadingVisibility, value);
-            }
+            get => _isLoadingVisibility;
+            set => SetProperty(ref _isLoadingVisibility, value);
         }
 
         private bool _isShowingFailedMessage;
 
         public bool IsShowingFailedMessage
         {
-            get
-            {
-                return _isShowingFailedMessage;
-            }
-
+            get => _isShowingFailedMessage;
             set
             {
                 if (value)
@@ -117,26 +168,16 @@ namespace PrismSample2019.ViewModels
 
         public Visibility FailedMesageVisibility
         {
-            get
-            {
-                return _failedMessageVisibility;
-            }
-
-            set
-            {
-                SetProperty(ref _failedMessageVisibility, value);
-            }
+            get => _failedMessageVisibility;
+            set => SetProperty(ref _failedMessageVisibility, value);
         }
 
         private IWebViewService _webViewService;
+        private HttpCookieCollection _cookies;
 
         public IWebViewService WebViewService
         {
-            get
-            {
-                return _webViewService;
-            }
-
+            get => _webViewService;
             // the WebViewService is set from within the view (instead of IoC) because it needs a reference to the control
             set
             {
@@ -174,6 +215,14 @@ namespace PrismSample2019.ViewModels
 
         private void NavCompleted(WebViewNavigationCompletedEventArgs e)
         {
+            var manager = _httpFilter.CookieManager;
+            var cookies = manager.GetCookies(e.Uri);
+            foreach (var item in cookies)
+            {
+                item.Value = Uri.UnescapeDataString(item.Value);
+            }
+            Cookies = cookies;
+
             IsLoading = false;
             RaisePropertyChanged(nameof(BrowserBackCommand));
             RaisePropertyChanged(nameof(BrowserForwardCommand));
@@ -197,5 +246,21 @@ namespace PrismSample2019.ViewModels
         /// 스크립트 실행 커맨드
         /// </summary>
         public ICommand RunScriptCommand { get; set; }
+
+        private readonly IUnityContainer _unityContainer;
+        private readonly HttpBaseProtocolFilter _httpFilter;
+
+        /// <summary>
+        /// 쿠키
+        /// </summary>
+        public HttpCookieCollection Cookies
+        {
+            get => _cookies;
+            private set => SetProperty(ref _cookies, value);
+        }
+
+        public ICommand GetValuesCommand { get; set; }
+
+        public ICommand SetValuesCommand { get; set; }
     }
 }

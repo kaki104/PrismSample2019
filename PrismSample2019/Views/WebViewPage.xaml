@@ -111,6 +111,25 @@
                 <Button Content="getText()" Command="{Binding RunScriptCommand}"
                         CommandParameter="javascript:getText();" Margin="4,0,0,0"/>
 
+                <Button Content="GetValues" Command="{Binding GetValuesCommand}"
+                        Margin="4,0,0,0"/>
+                <Button Content="SetValues" Command="{Binding SetValuesCommand}"
+                        Margin="4,0,0,0"/>
+
+                <ListBox ItemsSource="{Binding Cookies}" Margin="4,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    <Run Text="{Binding Name}"/>
+                                    <Run Text=" : "/>
+                                    <Run Text="{Binding Value}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
             </StackPanel >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource BrowserButtonStyle}" Command="{x:Bind ViewModel.RefreshCommand}" x:Uid="WebView_RefreshBrowserButton">
