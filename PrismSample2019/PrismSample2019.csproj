@@ -131,6 +131,7 @@
     <Compile Include="Models\UWPDriver.cs" />
     <Compile Include="Models\UWPDriverInjectionMethod.cs" />
     <Compile Include="Models\UWPDriverMultiConstructor.cs" />
+    <Compile Include="Models\UWPDriverMultiOverride.cs" />
     <Compile Include="Models\UWPDriverNamedMapping.cs" />
     <Compile Include="Models\UWPDriverPrimitiveType.cs" />
     <Compile Include="Models\UWPDriverDependencyAttribute.cs" />

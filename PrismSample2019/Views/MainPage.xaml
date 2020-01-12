@@ -78,9 +78,9 @@
         <Custom:HeaderedContentControl Grid.Column="5"
                                        Header="Lifetime Manager" Margin="0,50">
             <StackPanel Margin=" 10,0">
-                <Button Content="1. Multiple Parameters" Command="{Binding TestCommand}" CommandParameter="11"/>
-                <Button Content="2. Multiple Constructors" Command="{Binding TestCommand}" CommandParameter="12"/>
-                <Button Content="3. Primitive Type Parameter" Command="{Binding TestCommand}" CommandParameter="13"/>
+                <Button Content="1. TransientLifetimeManager" Command="{Binding TestCommand}" CommandParameter="51"/>
+                <Button Content="2. ContainerControlledLifetimeManager" Command="{Binding TestCommand}" CommandParameter="52"/>
+                <Button Content="3. HierarchicalLifetimeManager" Command="{Binding TestCommand}" CommandParameter="53"/>
             </StackPanel>
         </Custom:HeaderedContentControl>
 
