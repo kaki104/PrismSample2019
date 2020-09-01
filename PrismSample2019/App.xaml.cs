@@ -9,12 +9,15 @@ using Prism.Unity.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
 using PrismSample2019.Core.Helpers;
+using PrismSample2019.Core.Interfaces;
+using PrismSample2019.Core.Models;
 using PrismSample2019.Core.Services;
 using PrismSample2019.Services;
 using PrismSample2019.Views;
 
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web.Http.Filters;
@@ -48,7 +51,6 @@ namespace PrismSample2019
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.Default;
             httpFilter.CacheControl.WriteBehavior = HttpCacheWriteBehavior.Default;
             Container.RegisterInstance(typeof(HttpBaseProtocolFilter), "httpFilter", httpFilter);
-
         }
 
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

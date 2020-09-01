@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
-    xmlns:custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     x:Class="PrismSample2019.Views.MainPage"
     Style="{StaticResource PageStyle}"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
@@ -13,8 +13,75 @@
     <Grid
         x:Name="ContentArea"
         Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <StackPanel VerticalAlignment="Top">
+                <Button Content="Add Person" Command="{Binding AddPersonCommand}"/>
+                <TextBlock/>
+
+                <Custom:HeaderedContentControl Header="Register and Resolve">
+                    <StackPanel Margin=" 10,0">
+                        <Button Content="1. Manual" Command="{Binding TestCommand}" CommandParameter="1"/>
+                        <Button Content="2. Resolve" Command="{Binding TestCommand}" CommandParameter="2"/>
+                        <Button Content="3. Resolve 2Driver" Command="{Binding TestCommand}" CommandParameter="3"/>
+                        <Button Content="4. Multiple Registration" Command="{Binding TestCommand}" CommandParameter="4"/>
+                        <Button Content="5. Register Named Type" Command="{Binding TestCommand}" CommandParameter="5"/>
+                        <Button Content="6. Register Driver type" Command="{Binding TestCommand}" CommandParameter="6"/>
+                        <Button Content="7. Register Instance" Command="{Binding TestCommand}" CommandParameter="7"/>
+                    </StackPanel>
+                </Custom:HeaderedContentControl>
+            </StackPanel>
         </Grid>
+
+        <Custom:HeaderedContentControl Grid.Column="1"
+                                       Header="Constructor Injection" Margin="0,50">
+            <StackPanel Margin=" 10,0">
+                <Button Content="1. Multiple Parameters" Command="{Binding TestCommand}" CommandParameter="11"/>
+                <Button Content="2. Multiple Constructors" Command="{Binding TestCommand}" CommandParameter="12"/>
+                <Button Content="3. Primitive Type Parameter" Command="{Binding TestCommand}" CommandParameter="13"/>
+            </StackPanel>
+        </Custom:HeaderedContentControl>
+        <Custom:HeaderedContentControl Grid.Column="2"
+                                       Header="Property Injection" Margin="0,50">
+            <StackPanel Margin=" 10,0">
+                <Button Content="1. Dependency Attribute" Command="{Binding TestCommand}" CommandParameter="21"/>
+                <Button Content="2. Named Mapping" Command="{Binding TestCommand}" CommandParameter="22"/>
+                <Button Content="3. Run-time Configuration" Command="{Binding TestCommand}" CommandParameter="23"/>
+            </StackPanel>
+        </Custom:HeaderedContentControl>
+        <Custom:HeaderedContentControl Grid.Column="3"
+                                       Header="Method Injection" Margin="0,50">
+            <StackPanel Margin=" 10,0">
+                <Button Content="1. InjectionMethod Attribute" Command="{Binding TestCommand}" CommandParameter="31"/>
+                <Button Content="2. Run-time Configuration" Command="{Binding TestCommand}" CommandParameter="32"/>
+            </StackPanel>
+        </Custom:HeaderedContentControl>
+        <Custom:HeaderedContentControl Grid.Column="4"
+                                       Header="Overrides" Margin="0,50">
+            <StackPanel Margin=" 10,0">
+                <Button Content="1. ParameterOverride" Command="{Binding TestCommand}" CommandParameter="41"/>
+                <Button Content="2. Override Multiple Parameters" Command="{Binding TestCommand}" CommandParameter="42"/>
+                <Button Content="3. PropertyOverride" Command="{Binding TestCommand}" CommandParameter="43"/>
+                <Button Content="4. DependencyOverride" Command="{Binding TestCommand}" CommandParameter="44"/>
+            </StackPanel>
+        </Custom:HeaderedContentControl>
+        <Custom:HeaderedContentControl Grid.Column="5"
+                                       Header="Lifetime Manager" Margin="0,50">
+            <StackPanel Margin=" 10,0">
+                <Button Content="1. TransientLifetimeManager" Command="{Binding TestCommand}" CommandParameter="51"/>
+                <Button Content="2. ContainerControlledLifetimeManager" Command="{Binding TestCommand}" CommandParameter="52"/>
+                <Button Content="3. HierarchicalLifetimeManager" Command="{Binding TestCommand}" CommandParameter="53"/>
+            </StackPanel>
+        </Custom:HeaderedContentControl>
+
     </Grid>
 </Page>
