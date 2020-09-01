@@ -4,6 +4,7 @@ using Prism.Events;
 using Prism.Windows.Mvvm;
 using PrismSample2019.Core.Events;
 using PrismSample2019.Core.Helpers;
+using PrismSample2019.Core.Models;
 using PrismSample2019.Services;
 using System;
 using System.Diagnostics;
@@ -40,9 +41,17 @@ namespace PrismSample2019.ViewModels
             GetValuesCommand = new DelegateCommand(OnGetValuesCommand);
             SetValuesCommand = new DelegateCommand(OnSetValuesCommand);
 
+            _eventAggregator.GetEvent<TextChangedEvent>()
+                .Subscribe(ReceiveTextChangedEvent);
+
             _unityContainer = unityContainer;
             _httpFilter = _unityContainer.Resolve(typeof(HttpBaseProtocolFilter), "httpFilter") as HttpBaseProtocolFilter;
             if (_httpFilter == null) return;
+        }
+
+        private void ReceiveTextChangedEvent(Core.Models.TextChangedEventArgs obj)
+        {
+            OnRunScriptCommand($"javascript:textChanging('{obj.Id}','{obj.Text}');");
         }
 
         private async void OnSetValuesCommand()
@@ -174,6 +183,7 @@ namespace PrismSample2019.ViewModels
 
         private IWebViewService _webViewService;
         private HttpCookieCollection _cookies;
+        private IWebViewService _webViewService2;
 
         public IWebViewService WebViewService
         {
@@ -190,6 +200,24 @@ namespace PrismSample2019.ViewModels
                 _webViewService = value;
                 _webViewService.NavigationComplete += WebViewService_NavigationComplete;
                 _webViewService.NavigationFailed += WebViewService_NavigationFailed;
+            }
+        }
+
+        public IWebViewService WebViewService2
+        {
+            get => _webViewService2;
+            // the WebViewService is set from within the view (instead of IoC) because it needs a reference to the control
+            set
+            {
+                if (_webViewService2 != null)
+                {
+                    _webViewService2.NavigationComplete -= WebViewService_NavigationComplete;
+                    _webViewService2.NavigationFailed -= WebViewService_NavigationFailed;
+                }
+
+                _webViewService2 = value;
+                _webViewService2.NavigationComplete += WebViewService_NavigationComplete;
+                _webViewService2.NavigationFailed += WebViewService_NavigationFailed;
             }
         }
 

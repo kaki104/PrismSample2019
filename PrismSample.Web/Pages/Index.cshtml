@@ -55,6 +55,19 @@
     function confirmBoxResult(result) {
         document.getElementById('output').innerHTML = result;
     }
+
+    function textChange(id) {
+        var textBox = document.getElementById(id);
+        interface.textBoxTextChanged(id, textBox.value);
+    }
+
+    function textChanging(id, text) {
+        var textBox = document.getElementById(id);
+        //if (textBox.value == text) return;
+        //textBox.attributes('disabled', true);
+        textBox.value = text;
+        //textBox.attributes('disabled', false);
+    }
 </script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -67,6 +80,7 @@
         <button id="button5" onclick="navigate('movie')">Go Movie</button>
         <button id="button6" onclick="alertBox('Everything is ok!')">Alert</button>
         <button id="button7" onclick="confirmBox('Are you sure?')">Confirm</button>
+        <input id="text1" type="text" onchange="textChange('text1')"/>
     </div>
     <div id="output"></div>
 </div>

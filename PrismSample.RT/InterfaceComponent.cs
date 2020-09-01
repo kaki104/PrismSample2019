@@ -66,5 +66,15 @@ namespace PrismSample.RT
                     NavigatePageName = "Movie"
                 });
         }
+
+        public void TextBoxTextChanged(string id, string text)
+        {
+            _eventAggregator.GetEvent<TextChangedEvent>()
+                .Publish(new TextChangedEventArgs
+                {
+                    Id = id,
+                    Text = text
+                });
+        }
     }
 }

@@ -74,6 +74,7 @@ namespace PrismSample2019.Services
             if (string.IsNullOrEmpty(result)) return;
             var messageDialog = new MessageDialog(result);
             await messageDialog.ShowAsync();
+            
         }
 
         private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)

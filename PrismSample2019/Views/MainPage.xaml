@@ -1,11 +1,13 @@
 ﻿<Page
-    x:Class="PrismSample2019.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Style="{StaticResource PageStyle}"
+    xmlns:prism="http://prismlibrary.com/"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    xmlns:custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    x:Class="PrismSample2019.Views.MainPage"
+    Style="{StaticResource PageStyle}"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
     mc:Ignorable="d">
     <Grid
@@ -13,8 +15,6 @@
         Margin="{StaticResource MediumLeftRightMargin}">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
-                Place your content here.-->
         </Grid>
     </Grid>
 </Page>
