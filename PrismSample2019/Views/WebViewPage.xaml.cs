@@ -25,6 +25,13 @@ namespace PrismSample2019.Views
                 .Resolve(typeof(IWebViewService), ""
                     , new ParameterOverride("webViewInstance", webView)) as IWebViewService;
             ViewModel.WebViewService = service;
+
+
+            var service2 = PrismUnityApplication.Current.Container
+                    .Resolve(typeof(IWebViewService), ""
+                    , new ParameterOverride("webViewInstance", webView2)) as IWebViewService;
+            ViewModel.WebViewService2 = service2;
+
         }
     }
 }

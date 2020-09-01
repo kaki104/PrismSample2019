@@ -83,7 +83,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <WebView x:Name="webView" Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
+        <WebView Grid.Column="1" x:Name="webView2" Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
+        
         <StackPanel Visibility="{x:Bind ViewModel.IsLoadingVisibility, Mode=OneWay}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
